@@ -6,17 +6,38 @@ async function main(){
     const response = await fetch('http://localhost:9001/counter');
 
     const result = await response.json();
-    
+
     let countValue = result.value;
 
     function increment(){
         countValue++;
         countContainer.textContent = countValue;
+
+        fetch('http://localhost:9001/counter', {
+
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'value': countValue,
+        })
+    })
     }
 
     function decrement(){
         countValue--;
         countContainer.textContent = countValue;
+        fetch('http://localhost:9001/counter', {
+
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'value': countValue,
+            })
+        })
     }
 
     incrementButton.addEventListener('click', increment);
@@ -24,3 +45,4 @@ async function main(){
     countContainer.textContent = countValue;
 }
 main()
+
